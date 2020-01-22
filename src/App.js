@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Tabela from './components/Tabela'
 import Formulario from './components/Formulario'
-import './App.css'
+import 'materialize-css/dist/css/materialize.min.css'
 
 class App extends Component {
 
