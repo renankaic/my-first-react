@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Tabela from './components/Tabela'
+import Formulario from './components/Formulario'
 import './App.css'
 
 class App extends Component {
@@ -46,9 +47,10 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">
-        <Tabela autores={this.state.autores} removeAutor={this.removeAutor} />
-      </div>
+        <Fragment>
+          <Tabela autores={this.state.autores} removeAutor={this.removeAutor} />
+          <Formulario />
+        </Fragment>
     );
 
   }
