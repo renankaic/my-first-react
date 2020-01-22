@@ -44,12 +44,18 @@ class App extends Component {
 
   }
 
+  submitListener = autor => {
+
+    this.setState({ autores: [...this.state.autores, autor ]})
+
+  }
+
   render() {
 
     return (
         <Fragment>
           <Tabela autores={this.state.autores} removeAutor={this.removeAutor} />
-          <Formulario />
+          <Formulario  submitListener={this.submitListener} />
         </Fragment>
     );
 

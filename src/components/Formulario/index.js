@@ -6,11 +6,13 @@ class Formulario extends Component {
 
         super(props)
 
-        this.state = {
+        this._initialState = {
             nome: '',
             livro: '',
             preco: ''
         }
+
+        this.state = this._initialState
 
     }
 
@@ -21,6 +23,13 @@ class Formulario extends Component {
         this.setState({
             [name]:[value]
         })
+
+    }
+
+    submitForm = () => {
+
+        this.props.submitListener(this.state)
+        this.setState(this._initialState)
 
     }
 
@@ -59,7 +68,7 @@ class Formulario extends Component {
                         onChange={this.inputListener}
                     />
 
-                    <button type="button">Salvar</button>
+                    <button onClick={this.submitForm} type="button">Salvar</button>
                 </form>
             </Fragment>
         )
