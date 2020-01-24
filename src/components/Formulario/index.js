@@ -1,10 +1,16 @@
 import React, { Component, Fragment } from 'react'
+import FormValidator from '../../utils/FormValidator'
 
 class Formulario extends Component {
 
     constructor(props) {
 
         super(props)
+
+        this._validator = new FormValidator({
+            field: 'nome',
+            method: 'isEmpty'
+        })
 
         this._initialState = {
             nome: '',
@@ -28,8 +34,16 @@ class Formulario extends Component {
 
     submitForm = () => {
 
-        this.props.submitListener(this.state)
-        this.setState(this._initialState)
+        if (this._validator.validate(this.state)){
+
+            this.props.submitListener(this.state)
+            this.setState(this._initialState)
+
+        } else {
+
+            console.log("Submit Bloqueado")
+
+        }
 
     }
 
