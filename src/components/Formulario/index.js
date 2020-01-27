@@ -7,15 +7,37 @@ class Formulario extends Component {
 
         super(props)
 
-        this._validator = new FormValidator({
-            field: 'nome',
-            method: 'isEmpty'
-        })
+        this._validator = new FormValidator([
+            {
+                field: 'nome',
+                method: 'isEmpty',
+                validWhen: false,
+                message: 'Entre com um nome'
+            }, 
+            {
+                field: 'livro',
+                method: 'isEmpty',
+                validWhen: false,
+                message: 'Entre com um livro'
+            },
+            {
+                field: 'preco',
+                method: 'isInt',
+                validWhen: true,
+                message: 'Entre com um valor numérico',
+                args: [{
+                    min: 0,
+                    max: 99999
+                }]
+            }
+
+        ])
 
         this._initialState = {
             nome: '',
             livro: '',
-            preco: ''
+            preco: '',
+            validation: this._validator.valid()
         }
 
         this.state = this._initialState
@@ -27,21 +49,30 @@ class Formulario extends Component {
         const { name, value } = event.target
 
         this.setState({
-            [name]:[value]
+            [name]: value
         })
 
     }
 
     submitForm = () => {
 
-        if (this._validator.validate(this.state)){
+        const validation = this._validator.validate(this.state)
+
+        if (validation.isValid){
 
             this.props.submitListener(this.state)
             this.setState(this._initialState)
 
         } else {
 
-            console.log("Submit Bloqueado")
+            const { nome, livro, preco } = validation
+            const fields = [nome, livro, preco]
+
+            const invalidFields = fields.filter(elem => {
+                return elem.isInvalid
+            })
+
+            invalidFields.forEach(console.log)
 
         }
 
