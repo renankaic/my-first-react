@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import FormValidator from '../../utils/FormValidator'
+import PopUp from '../PopUp'
 
 class Formulario extends Component {
 
@@ -72,7 +73,9 @@ class Formulario extends Component {
                 return elem.isInvalid
             })
 
-            invalidFields.forEach(console.log)
+            invalidFields.forEach(field => {
+                PopUp.showMessage('error', field.message)
+            })
 
         }
 

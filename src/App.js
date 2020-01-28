@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import Tabela from './components/Tabela'
 import Formulario from './components/Formulario'
 import Header from './components/Header'
+import PopUp from './components/PopUp'
 import 'materialize-css/dist/css/materialize.min.css'
 import './App.css'
 
@@ -44,11 +45,15 @@ class App extends Component {
       }
     )
 
+    PopUp.showMessage('error', "Autor removido com sucesso!")
+
   }
 
   submitListener = autor => {
 
     this.setState({ autores: [...this.state.autores, autor ]})
+
+    PopUp.showMessage('success', "Autor adicionado com sucesso!")
 
   }
 
