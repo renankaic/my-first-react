@@ -1,14 +1,54 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import Header from '../Header'
+import DataTable from '../DataTable'
 
-const Autores = () => {
+class Autores extends Component {
 
-    return (
-        <Fragment>
-            <Header />
-            <h1>Autores</h1>
-        </Fragment>
-    )
+    constructor() {
+
+        super()
+        this.state = {
+            autores: [
+                {
+                    nome: 'Paulo',
+                    livro: 'React',
+                    preco: '1000'
+                },
+                {
+                    nome: 'Daniel',
+                    livro: 'Java',
+                    preco: '99'
+                },
+                {
+                    nome: 'Marcos',
+                    livro: 'Design',
+                    preco: '150'
+                },
+                {
+                    nome: 'Bruno',
+                    livro: 'DevOps',
+                    preco: '100'
+                }
+            ],
+            titulo: 'Autores'
+        }
+
+    }
+
+    render() {
+
+        return (
+            <Fragment>
+                <Header />
+
+                <div className="container">
+                    <h1>Autores</h1>
+                    <DataTable dados={this.state.autores} titulo={this.state.titulo} colunas={['nome']} ></DataTable>
+                </div>
+            </Fragment>
+        )
+
+    }
 
 }
 
