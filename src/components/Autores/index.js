@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import Header from '../Header'
 import DataTable from '../DataTable'
+import ApiService from '../../services/ApiService'
 
 class Autores extends Component {
 
@@ -8,30 +9,18 @@ class Autores extends Component {
 
         super()
         this.state = {
-            autores: [
-                {
-                    nome: 'Paulo',
-                    livro: 'React',
-                    preco: '1000'
-                },
-                {
-                    nome: 'Daniel',
-                    livro: 'Java',
-                    preco: '99'
-                },
-                {
-                    nome: 'Marcos',
-                    livro: 'Design',
-                    preco: '150'
-                },
-                {
-                    nome: 'Bruno',
-                    livro: 'DevOps',
-                    preco: '100'
-                }
-            ],
+            nomes: [],
             titulo: 'Autores'
         }
+
+    }
+
+    componentDidMount() {
+
+        ApiService.ListNames()
+            .then(res => {
+                this.setState({ nomes: [...this.state.nomes, ...res.data]})
+            })
 
     }
 
@@ -43,7 +32,7 @@ class Autores extends Component {
 
                 <div className="container">
                     <h1>Autores</h1>
-                    <DataTable dados={this.state.autores} titulo={this.state.titulo} colunas={['nome']} ></DataTable>
+                    <DataTable dados={this.state.nomes} titulo={this.state.titulo} colunas={['nome']} ></DataTable>
                 </div>
             </Fragment>
         )

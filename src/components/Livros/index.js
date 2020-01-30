@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react'
 import Header from '../Header'
 import DataTable from '../DataTable'
+import ApiService from '../../services/ApiService'
 
 class Livros extends Component {
 
@@ -8,30 +9,20 @@ class Livros extends Component {
 
         super()
         this.state = {
-            livros: [
-                {
-                    nome: 'Paulo',
-                    livro: 'React',
-                    preco: '1000'
-                },
-                {
-                    nome: 'Daniel',
-                    livro: 'Java',
-                    preco: '99'
-                },
-                {
-                    nome: 'Marcos',
-                    livro: 'Design',
-                    preco: '150'
-                },
-                {
-                    nome: 'Bruno',
-                    livro: 'DevOps',
-                    preco: '100'
-                }
-            ],
+            livros: [],
             titulo: 'Livros'
         }
+
+    }
+
+    componentDidMount() {
+
+        ApiService.ListBooks()
+            .then(res => {
+                this.setState({
+                    livros: [...this.state.livros, ...res.data]
+                })
+            })
 
     }
 
