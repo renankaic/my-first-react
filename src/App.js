@@ -3,76 +3,77 @@ import Tabela from './components/Tabela'
 import Formulario from './components/Formulario'
 import Header from './components/Header'
 import PopUp from './components/PopUp'
+import ApiService from './services/ApiService'
 import 'materialize-css/dist/css/materialize.min.css'
 import './App.css'
 
 class App extends Component {
 
-  state = {
-    autores: [
-      {
-        nome: 'Paulo',
-        livro: 'React',
-        preco: '1000'
-      },
-      {
-        nome: 'Daniel',
-        livro: 'Java',
-        preco: '99'
-      },
-      {
-        nome: 'Marcos',
-        livro: 'Design',
-        preco: '150'
-      },
-      {
-        nome: 'Bruno',
-        livro: 'DevOps',
-        preco: '100'
-      }
-    ]
-  }
+	constructor(props) {
 
-  removeAutor = (index) => {
+		super()
+		this.state = {
+			autores: []
+		}
+	}
 
-    const  { autores } = this.state;
+	removeAutor = (id) => {
 
-    this.setState(
-      {
-        autores : autores.filter((autor, posAtual) => {
-          return posAtual !== index
-        })
-      }
-    )
+		const { autores } = this.state;
 
-    PopUp.showMessage('error', "Autor removido com sucesso!")
+		ApiService.RemoveAuthor(id).then(res => {
 
-  }
+			this.setState(
+				{
+					autores: autores.filter(autor => {
+						return autor.id !== id
+					})
+				}
+			)
 
-  submitListener = autor => {
+			PopUp.showMessage('error', "Autor removido com sucesso!")
 
-    this.setState({ autores: [...this.state.autores, autor ]})
+		})
 
-    PopUp.showMessage('success', "Autor adicionado com sucesso!")
+	}
 
-  }
+	submitListener = author => {
 
-  render() {
+		ApiService.CreateAuthor(JSON.stringify(author))
+			.then(res => res.data)
+			.then(lastCreatedAuthor => {
 
-    return (
-        <Fragment>
-          <Header />
+				this.setState({ autores: [...this.state.autores, lastCreatedAuthor] })
+				PopUp.showMessage('success', "Autor adicionado com sucesso!")
 
-          <div className="container mb-10">
-            <h1>Casa do Código</h1>
-            <Tabela autores={this.state.autores} removeAutor={this.removeAutor} />
-            <Formulario  submitListener={this.submitListener} />
-          </div>
-        </Fragment>
-    );
+			})
 
-  }
-  
+	}
+
+	componentDidMount() {
+
+		ApiService.ListAuthors().then(res => {
+			this.setState({ autores: [...this.state.autores, ...res.data] })
+		})
+
+	}
+
+	render() {
+
+		return (
+			<Fragment>
+				<Header />
+
+				<div className="container mb-10">
+					<h1>Casa do Código</h1>
+					<Tabela autores={this.state.autores} removeAutor={this.removeAutor} />
+					<Formulario submitListener={this.submitListener} />
+				</div>
+			</Fragment>
+		);
+
+	}
+
 }
 
 export default App;
