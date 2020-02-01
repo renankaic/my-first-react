@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import Header from '../Header'
 import DataTable from '../DataTable'
 import ApiService from '../../services/ApiService'
+import PopUp from '../PopUp'
 
 class Livros extends Component {
 
@@ -23,6 +24,7 @@ class Livros extends Component {
                     livros: [...this.state.livros, ...res.data]
                 })
             })
+            .catch(err => PopUp.showMessage('error', 'Erro na comunicacao com a API'))
 
     }
 

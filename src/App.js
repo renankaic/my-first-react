@@ -21,40 +21,48 @@ class App extends Component {
 
 		const { autores } = this.state;
 
-		ApiService.RemoveAuthor(id).then(res => {
+		ApiService
+			.RemoveAuthor(id)
+				.then(res => {
 
-			this.setState(
-				{
-					autores: autores.filter(autor => {
-						return autor.id !== id
-					})
-				}
-			)
+					this.setState(
+						{
+							autores: autores.filter(autor => {
+								return autor.id !== id
+							})
+						}
+					)
 
-			PopUp.showMessage('error', "Autor removido com sucesso!")
+					PopUp.showMessage('error', "Autor removido com sucesso!")
 
-		})
+				})
+				.catch(err => PopUp.showMessage('error', 'Erro na comunicacao com a API'))
 
 	}
 
 	submitListener = author => {
 
-		ApiService.CreateAuthor(JSON.stringify(author))
-			.then(res => res.data)
-			.then(lastCreatedAuthor => {
+		ApiService
+			.CreateAuthor(JSON.stringify(author))
+				.then(res => res.data)
+				.then(lastCreatedAuthor => {
 
-				this.setState({ autores: [...this.state.autores, lastCreatedAuthor] })
-				PopUp.showMessage('success', "Autor adicionado com sucesso!")
+					this.setState({ autores: [...this.state.autores, lastCreatedAuthor] })
+					PopUp.showMessage('success', "Autor adicionado com sucesso!")
 
-			})
+				})
+				.catch(err => PopUp.showMessage('error', 'Erro na comunicacao com a API'))
 
 	}
 
 	componentDidMount() {
 
-		ApiService.ListAuthors().then(res => {
-			this.setState({ autores: [...this.state.autores, ...res.data] })
-		})
+		ApiService
+			.ListAuthors()
+				.then(res => {
+					this.setState({ autores: [...this.state.autores, ...res.data] })
+				})
+				.catch(err => PopUp.showMessage('error', 'Erro na comunicacao com a API'))
 
 	}
 

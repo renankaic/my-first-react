@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import Header from '../Header'
 import DataTable from '../DataTable'
 import ApiService from '../../services/ApiService'
+import PopUp from '../PopUp'
 
 class Autores extends Component {
 
@@ -21,6 +22,7 @@ class Autores extends Component {
             .then(res => {
                 this.setState({ nomes: [...this.state.nomes, ...res.data]})
             })
+            .catch(err => PopUp.showMessage('error', 'Erro na comunicacao com a API'))
 
     }
 

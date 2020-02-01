@@ -9,7 +9,7 @@ const ApiService = {
             headers: { 'Content-type': 'application/json'},
             body: author 
         })
-        .then(res => res.json())
+        .then(res => res.json())        
         
     },
     ListBooks: () => fetch(apiEndpoint + '/autor/livro').then(res => res.json()),    
